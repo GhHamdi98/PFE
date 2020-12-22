@@ -1,0 +1,39 @@
+security:
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
+    providers:
+        login:
+            entity:
+                class: App\Entity\User
+                property: username
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|image|js)/
+            security: false
+        main:
+            anonymous: true
+            form_login: true
+
+            logout:
+                path: app_logout
+                target: app_login
+            guard:
+                authenticators:
+                    - App\Security\UsersAuthenticator
+                    - App\Security\UserAuthenticator
+                entry_point: App\Security\UserAuthenticator
+                # where to redirect after logout
+                # target: app_any_route
+
+    access_control:
+         - { path: ^/user, role: ROLE_ADMIN }
+         - { path: ^/demande/prospect, role: IS_AUTHENTICATED_ANONYMOUSLY}
+         - { path: ^/demande, role: ROLE_ADMIN }
+         - { path: ^/mail, role: ROLE_ADMIN }
+         - { path: ^/mailPartenaire, role: ROLE_PARTENAIRE }
+         - { path: ^/service, role: ROLE_ADMIN }
+         - { path: ^/pays, role: ROLE_ADMIN }
+         - { path: ^/prospect, role: ROLE_PROSPECT }
+         - { path: ^/partenaire, role: ROLE_PARTENAIRE }
+         - { path: ^/commercial, role: ROLE_COMMERCIALE }

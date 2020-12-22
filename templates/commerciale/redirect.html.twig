@@ -1,0 +1,11 @@
+{% block body %}
+    {% if  is_granted('ROLE_ADMIN') %}
+        <script>window.location.href = 'http://localhost:8000/user/'</script>
+    {% elseif is_granted('ROLE_COMMERCIALE')  %}
+        <script>window.location.href = 'http://localhost:8000/commerciale/user'</script>
+    {% elseif is_granted('ROLE_PARTENAIRE')  %}
+        <script>window.location.href = 'http://localhost:8000/partenaire/user'</script>
+    {% else %}
+        <script>window.location.href = 'http://localhost:8000/prospect'</script>
+    {% endif %}
+{% endblock %}

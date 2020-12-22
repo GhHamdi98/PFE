@@ -1,0 +1,66 @@
+{% block stylesheets %}
+
+    <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
+
+    <!-- Ionicons -->
+    <link rel="stylesheet"
+          href="{{ asset('https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css') }}">
+    <!-- Tempusdominus Bbootstrap 4 -->
+    <link rel="stylesheet"
+          href="{{ asset('plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="{{ asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+    <!-- JQVMap -->
+    <link rel="stylesheet" href="{{ asset('plugins/jqvmap/jqvmap.min.css') }}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="{{ asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}">
+    <!-- summernote -->
+    <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.css') }}">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <style>
+
+        th {
+            background-color: #f7f7f7;
+            border-color: #959594;
+            border-style: solid;
+            border-width: 1px;
+            text-align: center;
+        }
+
+        .bordered td {
+            border-color: #959594;
+            border-style: solid;
+            border-width: 1px;
+        }
+
+        #tab1 {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        /* Para sobrescribir lo que está en div-table.css */
+        .divTableCell,
+        .divTableHead {
+            padding: 0px !important;
+            border: 0px !important;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+    <fieldset style="text-align: center"><b>Contrat pour {{ demande.natureProjet }}</b></fieldset><br>
+    <div style="">
+        <img src="https://www.zenhosting.tn/wp-content/uploads/2016/03/newlogo.png" id="logo" style="width: 200px ">
+        <h3><b>Zenhosting</b></h3>
+        <b>Adresse</b> : Bureau 504 ,Imm Louzir ,<br> Avenue Palestine Sahloul 2 Sousse, 4054<br>
+        <img src="https://img.icons8.com/nolan/24/email.png"> contact@zenhosting.tn<br>
+        <img src="https://img.icons8.com/nolan/24/phone-not-being-used.png"/> (+216) 73.369.270
+    </div>
+    <br><br><br>
+    <div class="card-body">{{ contrat|raw }}</div>
+{% endblock %}
+

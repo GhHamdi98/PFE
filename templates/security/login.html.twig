@@ -1,0 +1,227 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+{% block stylesheets %}
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('demande/assets/img/apple-icon.png') }}" />
+    <link rel="icon" type="image/png" href="{{ asset('demande/assets/img/favicon.png') }}" />
+    <link rel="icon" type="image/png" href="{{ asset('login/images/icons/favicon.ico') }}"/>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('login/vendor/bootstrap/css/bootstrap.min.css') }}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('login/fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('login/vendor/animate/animate.css') }}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('login/vendor/css-hamburgers/hamburgers.min.css') }}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('login/vendor/select2/select2.min.css') }}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('login/css/util.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('login/css/main.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
+    <!-- Toastr -->
+    <link rel="stylesheet" href="{{ asset('plugins/toastr/toastr.min.css') }}">
+    <script src="{{ asset('login/vendor/tilt/tilt.jquery.min.js') }}"></script>
+    <style>
+        .loading{
+            color: black;
+            font-size: 90px;
+            text-indent: -9999em;
+            overflow: hidden;
+            width: 1em;
+            height: 1em;
+            border-radius: 50%;
+            margin: 72px auto;
+            position: fixed;
+            top: 10px;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            -webkit-transform: translateZ(0);
+            -ms-transform: translateZ(0);
+            transform: translateZ(0);
+            -webkit-animation: load6 1.7s infinite ease, round 1.7s infinite ease;
+            animation: load6 1.7s infinite ease, round 1.7s infinite ease;
+        }
+        @-webkit-keyframes load6 {
+            0% {
+                box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+            }
+            5%,
+            95% {
+                box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+            }
+            10%,
+            59% {
+                box-shadow: 0 -0.83em 0 -0.4em, -0.087em -0.825em 0 -0.42em, -0.173em -0.812em 0 -0.44em, -0.256em -0.789em 0 -0.46em, -0.297em -0.775em 0 -0.477em;
+            }
+            20% {
+                box-shadow: 0 -0.83em 0 -0.4em, -0.338em -0.758em 0 -0.42em, -0.555em -0.617em 0 -0.44em, -0.671em -0.488em 0 -0.46em, -0.749em -0.34em 0 -0.477em;
+            }
+            38% {
+                box-shadow: 0 -0.83em 0 -0.4em, -0.377em -0.74em 0 -0.42em, -0.645em -0.522em 0 -0.44em, -0.775em -0.297em 0 -0.46em, -0.82em -0.09em 0 -0.477em;
+            }
+            100% {
+                box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+            }
+        }
+        @keyframes load6 {
+            0% {
+                box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+            }
+            5%,
+            95% {
+                box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+            }
+            10%,
+            59% {
+                box-shadow: 0 -0.83em 0 -0.4em, -0.087em -0.825em 0 -0.42em, -0.173em -0.812em 0 -0.44em, -0.256em -0.789em 0 -0.46em, -0.297em -0.775em 0 -0.477em;
+            }
+            20% {
+                box-shadow: 0 -0.83em 0 -0.4em, -0.338em -0.758em 0 -0.42em, -0.555em -0.617em 0 -0.44em, -0.671em -0.488em 0 -0.46em, -0.749em -0.34em 0 -0.477em;
+            }
+            38% {
+                box-shadow: 0 -0.83em 0 -0.4em, -0.377em -0.74em 0 -0.42em, -0.645em -0.522em 0 -0.44em, -0.775em -0.297em 0 -0.46em, -0.82em -0.09em 0 -0.477em;
+            }
+            100% {
+                box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+            }
+        }
+        @-webkit-keyframes round {
+            0% {
+                -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
+        @keyframes round {
+            0% {
+                -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
+
+    </style>
+{% endblock %}
+{% block body %}
+    <div class="limiter">
+        <div class="container-login100">
+            <div class="wrap-login100">
+                <div class="login100-pic js-tilt" id="js-tilt" data-tilt>
+                    <img src="{{ asset('/login/images/img-01.png') }}" alt="IMG">
+                </div>
+                <div id="formulaire">
+                <form  class="login100-form validate-form" method="post">
+					<span class="login100-form-title">
+						Bienvenue chez notre Plateforme
+					</span>
+                    <div id="element">
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    {% endif %}
+                    {% if app.user %}
+                        <div class="mb-3">
+                            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout',{id: app.user.id}) }}">Déconnecter</a>
+                        </div>
+                    {% endif %}
+                    <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+                        <input class="input100" type="text" name="username" value="{{ last_username }}" placeholder="Nom d'utilisateur" id="inputUsername" required autofocus>
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+							<i class="fa fa-user" aria-hidden="true"></i>
+						</span>
+                    </div>
+
+                    <div class="wrap-input100 validate-input" data-validate = "Password is required">
+                        <input class="input100" type="password" name="password" id="inputPassword" placeholder="Mot de passe" required>
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+							<i class="fa fa-lock" aria-hidden="true"></i>
+						</span>
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                    </div>
+
+                    <div class="container-login100-form-btn">
+                        <button class="login100-form-btn" value='' type="submit">
+                            Se connecter
+                        </button>
+                    </div>
+
+                    <div class="text-center p-t-12" id="add">
+						<span class="txt1">
+							Mot de passe
+						</span>
+                        <a class="txt2" href="javascript:sendIt();">
+                            Oubliée!
+                        </a>
+                    </div>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+        <div class="loading" id="loader" style="display: none">Loading...</div>
+    </div>
+{% block javascripts %}
+<script>
+    function sendIt() {
+        $('#element').html("")  ;
+        $('#element').append("<div class=\"wrap-input100 validate-input\" data-validate = \"Email is required\">\n" +
+            "                        <input class=\"input100\" type=\"email\" name=\"email\" id=\"email\" placeholder=\"Votre adresse mail\" required>\n" +
+            "                        <span class=\"focus-input100\"></span>\n" +
+            "                        <span class=\"symbol-input100\">\n" +
+            "\t\t\t\t\t\t\t<i class=\"fa fa-envelope\" aria-hidden=\"true\"></i>\n" +
+            "\t\t\t\t\t\t</span>\n" +
+            "                    </div><div class=\"container-login100-form-btn\">\n" +
+            "                        <button class=\"login100-form-btn\" onclick='send()' >\n" +
+            "                            Envoyer\n" +
+            "                        </button>\n" +
+            "                    </div>");
+    }
+    function send() {
+        if ($('#email').val() !== "") {
+            $.ajax({
+                method: "POST",
+                url: "{{ path('recover_password') }}",
+                data: {email: $('#email').val()},
+                beforeSend: function() {
+                    $("#loader").show()
+                },
+                complete : function() {
+                    $("#loader").hide()
+                },
+                success: function (data) {
+                    toastr.success('Votre demande a été envoyer avec succées.');
+                }
+            });
+        }
+        else {
+            toastr.info('Inserer votre adresse mail.');
+        }
+    }
+</script>
+<script src="{{ asset('login/vendor/jquery/jquery-3.2.1.min.js') }}"></script>
+    <script >
+        $('#js-tilt').tilt({
+            scale: 1.1
+        })
+    </script>
+    <script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('plugins/toastr/toastr.min.js') }}"></script>
+    <!--===============================================================================================-->
+    <script src="{{ asset('login/vendor/bootstrap/js/popper.js') }}"></script>
+    <script src="{{ asset('login/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+    <!--===============================================================================================-->
+    <script src="{{ asset('login/vendor/select2/select2.min.js') }}"></script>
+    <!--===============================================================================================-->
+    <!--===============================================================================================-->
+    <script src="{{ asset('login/js/main.js') }}"></script>
+{% endblock %}
+{% endblock %}

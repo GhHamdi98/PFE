@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>
+        {% block title %}Afficher Demande{% endblock %}
+    </title>    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome -->
+    {% block stylesheets %}
+        <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('demande/assets/img/apple-icon.png') }}" />
+        <link rel="icon" type="image/png" href="{{ asset('demande/assets/img/favicon.png') }}" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+              integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+              crossorigin="anonymous">
+        <link rel="stylesheet"
+              href="{{ asset('plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
+        <!-- iCheck -->
+        <link rel="stylesheet" href="{{ asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+        <!-- JQVMap -->
+        <link rel="stylesheet" href="{{ asset('plugins/jqvmap/jqvmap.min.css') }}">
+        <!-- Theme style -->
+        <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
+        <!-- overlayScrollbars -->
+        <link rel="stylesheet" href="{{ asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
+        <!-- Daterange picker -->
+        <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}">
+        <!-- summernote -->
+        <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.css') }}">
+        <!-- Google Font: Source Sans Pro -->
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    {% endblock %}
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+{% block body %}
+    <div class="wrapper">
+
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+                </li>
+
+            </ul>
+
+            <!-- Right navbar links -->
+            <ul class="navbar-nav ml-auto">
+                <!-- Messages Dropdown Menu -->
+                <li class="nav-item dropdown">
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-divider"></div>
+                    </div>
+                    <!-- Message End -->
+
+                </li>
+                <!-- Notifications Dropdown Menu -->
+                <li class="nav-item dropdown">
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path('commerciale_disconnected',{'id' :app.user.id}) }}"><img title="Se déconnecter" src="https://img.icons8.com/color/28/000000/export.png"/></a>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.navbar -->
+
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <!-- Brand Logo -->
+            <a href="{{ path('commerciale_user') }}" class="brand-link">
+                <img src="{{ asset('dist/img/AdminLTELogo.png') }}"
+                     alt="AdminLTE Logo"
+                     class="brand-image img-circle elevation-3"
+                     style="opacity: .8">
+                <span class="brand-text font-weight-light">Quote Request</span>
+            </a>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Sidebar user (optional) -->
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="image">
+                        <img src="https://img.icons8.com/bubbles/30/000000/admin-settings-male.png"/>
+                    </div>
+                    <div class="info">
+                        <a href="{{ path('commerciale_show', {'id': app.user.id}) }}" class="d-block">{{app.user.username}}</a>
+                    </div>
+                </div>
+
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <!-- Add icons to the links using the .nav-icon class
+                             with font-awesome or any other icon font library -->
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link ">
+                                <i><img src="{{ asset('dist/img/group.png') }}"></i>
+                                <p>
+                                    Utilisateurs
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item ">
+                                    <a href="{{ path('commerciale_user') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>&nbsp; Liste des Utilisateur</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-treeview menu-open active">
+                            <a href="#" class="nav-link active">
+                                <i><img src="{{ asset('img/demande.png.png') }}"></i>                                <p>
+                                    Demande
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview ">
+                                <li class="nav-item ">
+                                    <a href="{{ path('commercialeDemande_index') }}" class="nav-link active">
+                                        <i class="far fa-circle nav-icon"></i>                                <p>
+                                        <p>Liste des Demandes</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link ">
+                                <i><img src="https://img.icons8.com/windows/24/000000/user-settings.png"></i>                                <p>
+                                    Compte
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ path('commercialeUser_Accountedit', {'id': app.user.id}) }}" class="nav-link">
+                                        &nbsp;&nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>                                <p>
+                                        <p>Gérer compte</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i><img src="https://img.icons8.com/ios/26/000000/composing-mail.png"></i>
+                                <p>
+                                    Mail
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ path('Commercialesend_mails') }}" class="nav-link ">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Envoyer mail</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- /.sidebar-menu -->
+            </div>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <div class="content-header">
+                <div class="container-fluid">
+                </div><!-- /.container-fluid -->
+            </div>
+            <!-- /.content-header -->
+
+            <!-- Main content -->
+            <!-- Small boxes (Stat box) -->
+
+            <!-- /.row -->
+            <!-- Main row -->
+            <section class="content">
+                <div class="container-fluid">
+                    <!-- Small boxes (Stat box) -->
+                    <!-- /.row -->
+                    <!-- Main row -->
+                    <div class="row">
+                        <!-- Left col -->
+                        <section class="col-lg-12 connectedSortable">
+                            <!-- Custom tabs (Charts with tabs)-->
+                            <div class="card">
+                                <div class="card card-primary card-tabs">
+                                    <div class="card-header p-0 pt-1">
+                                        <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" id="custom-tabs-one-home-tab"
+                                                   data-toggle="pill"
+                                                   href="#custom-tabs-one-home" role="tab"
+                                                   aria-controls="custom-tabs-one-home"
+                                                   aria-selected="true">Prospect</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill"
+                                                   href="#custom-tabs-one-profile" role="tab"
+                                                   aria-controls="custom-tabs-one-profile"
+                                                   aria-selected="false">Demande</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="custom-tabs-one-messages-tab" data-toggle="pill"
+                                                   href="#custom-tabs-one-messages" role="tab"
+                                                   aria-controls="custom-tabs-one-messages"
+                                                   aria-selected="false">Document</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="custom-tabs-one-settings-tab" data-toggle="pill"
+                                                   href="#custom-tabs-one-settings" role="tab"
+                                                   aria-controls="custom-tabs-one-settings"
+                                                   aria-selected="false">Devis</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="custom-tabs-one-stat-tab" data-toggle="pill"
+                                                   href="#custom-tabs-one-stat" role="tab"
+                                                   aria-controls="custom-tabs-one-stat" aria-selected="false">Statistique</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="tab-content" id="custom-tabs-one-tabContent">
+                                            <div class="tab-pane fade show active" id="custom-tabs-one-home"
+                                                 role="tabpanel"
+                                                 aria-labelledby="custom-tabs-one-home-tab">
+                                                <div class="card-body">
+                                                    <table class="table">
+                                                        <tbody>
+                                                        <tr>
+                                                            <th>Id</th>
+                                                            <td>{{ demande.Prospect.id }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Nom</th>
+                                                            <td>{{ demande.Prospect.userName }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Email</th>
+                                                            <td>{{ demande.Prospect.Email }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Adresse</th>
+                                                            <td>{{ demande.Prospect.Adresse }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Activite</th>
+                                                            <td>{{ demande.Prospect.Activite }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Telephone</th>
+                                                            <td>{{ demande.Prospect.telephone }}</td>
+                                                        </tr>
+                                                        </tbody>
+                                                        <tfoot>
+                                                        <a href="{{ path('commerciale_show', {'id': demande.prospect.id}) }}"><i
+                                                                    class="fas fa-eye"></i>&nbsp;Voir Client</a>
+                                                        </tfoot>
+                                                    </table>
+                                                    <br><br><br>
+                                                    <a href="{{ path('demande_index') }}"><i
+                                                                class="fas fa-arrow-left"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </div><!-- /.card-body -->
+                                            </div>
+                                            <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel"
+                                                 aria-labelledby="custom-tabs-one-profile-tab">
+                                                <div class="card-body">
+                                                    <table class="table">
+                                                        <tbody>
+                                                        <tr>
+                                                            <th>Id</th>
+                                                            <td>{{ demande.id }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Service</th>
+                                                            <td><b>{{ demande.Service }}</b></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Nature du projet</th>
+                                                            <td>{{ demande.natureProjet }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Fonctionalité du projet</th>
+                                                            <td>{{ demande.fonctionaliteProjet }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Principales fonctionalitées</th>
+                                                            <td>{{ demande.principaleProjet }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Site similaire</th>
+                                                            <td>{{ demande.siteSimilaire }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Module B2C</th>
+                                                            <td>{{ demande.moduleB2c }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Module B2B</th>
+                                                            <td>{{ demande.moduleB2b }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Langue du projet</th>
+                                                            <td>{{ demande.langueProjet }}</td>
+                                                        </tr>
+                                                        <th>Couleur préferé</th>
+                                                        <td>{{ demande.couleurPrefere }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Logo</th>
+                                                            <td>{% if(demande.logo==1) %}
+                                                                    Oui
+                                                                {% else %}
+                                                                    Non
+                                                                {% endif %}
+                                                            </td>
+                                                        </tr>
+                                                        </tr>
+                                                        <th>Charte graphique</th>
+                                                        <td>{% if(demande.charteGraphique==1) %}
+                                                                Oui
+                                                            {% else %}
+                                                                Non
+                                                            {% endif %}
+                                                        </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Details</th>
+                                                            <td>{{ demande.details }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Prospect</th>
+                                                            <td>{{ demande.Prospect }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Echeance</th>
+                                                            <td class="alert-default-warning">{{ demande.echeance ? demande.echeance|date('Y-m-d') : '' }}</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <br><br><br>
+                                                    <a href="{{ path('demande_index') }}"><i
+                                                                class="fas fa-arrow-left"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </div><!-- /.card-body -->
+                                            </div>
+                                            <div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel"
+                                                 aria-labelledby="custom-tabs-one-messages-tab">
+                                                <section class="content">
+                                                    <div class="row">
+                                                        <a
+                                                                href="{{ path('commercialeContrat_showPDF', {'id': demande.id}) }}"><i
+                                                                    class="fas fa-eye"></i>&nbsp;Voir contrat</a>
+                                                        <!-- /.col-->
+                                                    </div>
+
+                                                    <!-- ./row -->
+                                                </section>
+                                            </div>
+                                            <div class="tab-pane fade" id="custom-tabs-one-settings" role="tabpanel"
+                                                 aria-labelledby="custom-tabs-one-settings-tab">
+                                                <section class="content">
+                                                    <div class="container-fluid">
+                                                        <div class="row">
+                                                            <!-- left column -->
+                                                            <div class="col-md-6">
+                                                                <!-- general form elements -->
+                                                                <div class="card card-primary">
+                                                                    <div class="card-header">
+                                                                        <h3 class="card-title">Devis</h3>
+                                                                    </div>
+                                                                    <div class="card-body">
+                                                                        <table id="example1"
+                                                                               class="table table-bordered table-hover">
+                                                                            <thead>
+                                                                            <tr>
+                                                                                <th class="th-sm">Nom</th>
+                                                                                <th class="th-sm">Prix</th>
+                                                                                <th class="th-sm"></th>
+                                                                            </tr>
+                                                                            </thead>
+                                                                            <th colspan="2" style="text-align: center">
+                                                                                Service
+                                                                            </th>
+                                                                                <tbody id="div">
+                                                                                <td><input class="form-control"
+                                                                                           id="serviceNom"
+                                                                                           onclick="btnNomService()"
+                                                                                           type="text"
+                                                                                           disabled
+                                                                                           value="{{ service.nom }}">
+                                                                                </td>
+                                                                                <td><input class="form-control"
+                                                                                           type="text"
+                                                                                           disabled
+                                                                                           onclick="btnService()"
+                                                                                           id="servicePrix"
+                                                                                           value="{{ service.prix }}">
+                                                                                </td>
+                                                                                </tbody>
+                                                                            <thead>
+                                                                            <th colspan="2" style="text-align: center">
+                                                                                Options
+                                                                            </th>
+                                                                            </thead>
+                                                                                <tbody id="optionss">
+                                                                                {% set c=0 %}
+                                                                                {% for options in devis.devisOptions %}
+                                                                                    <tr class='ss{{ c }}'
+                                                                                        id='ss{{ c }}'>
+                                                                                        <td>
+                                                                                            <input id='nom{{ c }}'
+                                                                                                   onclick='btnnom({{ c }})'
+                                                                                                   name='nom{{ c }}'
+                                                                                                   disabled
+                                                                                                   class='form-control nom{{ c }}'
+                                                                                                   value='{{ options.nom }}'>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <input onclick='btnprix({{ c }})'
+                                                                                                   placeholder='Vide = 0$'
+                                                                                                   id='prix{{ c }}'
+                                                                                                   name='prix{{ c }}'
+                                                                                                   disabled
+                                                                                                   class='form-control prix{{ c }}'
+                                                                                                   value='{{ options.prix }}'
+                                                                                                   required>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                {% endfor %}
+                                                                                <input type="hidden" id="count"
+                                                                                       value="{{ statCount }}">
+                                                                                </tbody>
+                                                                            <thead>
+                                                                            <tr>
+                                                                                <th class="th-sm" colspan="2"
+                                                                                    style="text-align: center">Réduction
+                                                                                </th>
+                                                                            </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                            <td>Réduction ($)</td>
+                                                                            <td class="card-primary">
+                                                                                <div class="input-group">
+                                                                                        <div class="input-group-prepend">
+                                                                                            <span class="input-group-text">$</span>
+                                                                                        </div>
+                                                                                        <input type="text"
+                                                                                               value="{{ devis.reduction }}"
+                                                                                               name="reduction"
+                                                                                               id="red"
+                                                                                               disabled
+                                                                                               onclick="btnred()"
+                                                                                               class="form-control"
+                                                                                               required>
+                                                                                </div>
+                                                                            </td>
+                                                                            </tbody>
+                                                                            <thead>
+                                                                            <tr>
+                                                                                <th class="th-sm" colspan="2"
+                                                                                    style="text-align: center">Plus
+                                                                                    d'informations
+                                                                                </th>
+                                                                            </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                            <td class="card-primary" colspan="2">
+                                                                                    <div class="card col-lg-12">
+                                                                                        <div class="card-body pad">
+                                                                                            <div class="mb-3">
+                                                                                                <textarea id="infos"
+                                                                                                          disabled
+                                                                                                          onclick="btninfos()"
+                                                                                                          class="form-control summernote"
+                                                                                                          placeholder="Ce champ est optionnel .vous pouvez aussi créer en forme HTML">{{ devis.informations }}</textarea>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                            </td>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                    <!-- /.card-header -->
+                                                                    <!-- form start -->
+
+                                                                </div>
+                                                                <!-- /.card -->
+
+                                                                <!-- Form Element sizes -->
+                                                                <!-- /.card -->
+
+                                                            </div>
+                                                            <!--/.col (left) -->
+                                                            <!-- right column -->
+                                                            <div class="col-md-6">
+                                                                <!-- general form elements disabled -->
+                                                                <div class="card card-warning">
+                                                                    <div class="card-header">
+                                                                        <h3 class="card-title">Calcul du devis</h3>
+                                                                    </div>
+                                                                    <!-- /.card-header -->
+                                                                    <div class="card-body">
+                                                                        <h4><b>Devis de Client N°
+                                                                                : {{ demande.prospect.id }}</b></h4>
+                                                                        <ul>
+                                                                                <li><b>Date de création
+                                                                                        : </b> {{ devis.dateCreation|date('d/m/Y h:m:s', "Etc/UTC") }}
+                                                                                </li>
+                                                                                <li>
+                                                                                    <b>Total : </b>
+                                                                                    <span id="total">
+                                                                                    {{ devis.totale }}
+                                                                                </span>
+                                                                                    &nbsp;
+                                                                                    <b>{{ demande.prospect.pays.devise }}</b>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <b>Réduction : </b>
+                                                                                    <span id="reduction"
+                                                                                          class="reduction">{{ devis.reduction }}
+                                                                                </span>&nbsp;
+                                                                                    <b>{{ demande.prospect.pays.devise }}</b>
+                                                                                </li>
+                                                                                {% set s=devis.totale-devis.reduction %}
+                                                                                <li>
+                                                                                    <b>Total avec réduction : </b>
+                                                                                    <span id="totalr">{{ s }}</span>
+                                                                                    &nbsp;<b>{{ demande.prospect.pays.devise }}</b>
+                                                                                </li>
+                                                                                <li><b>Statut : </b>
+                                                                                    {% if devis.statut == null %}
+                                                                                    <span class="btn-outline-danger">----------------</span>
+                                                                                    {% else %}
+                                                                                    <span class="btn-outline-danger">{{ devis.statut }}</span>
+                                                                                    {% endif %}
+                                                                                </li>
+                                                                                <li>
+                                                                                    <b>Date de confirmation : </b>
+                                                                                    {% if devis.dateConfirmation|date('d-m-Y') ==null  %}
+                                                                                        <span>-------------------</span>
+                                                                                    {% else %}
+                                                                                        <span>{{ devis.dateSouhaitee|date('d-m-Y') }}</span>
+                                                                                    {% endif %}
+                                                                                </li>
+                                                                                <li>
+                                                                                    <b>Date souhaitée :</b>
+                                                                                    {% if devis.dateConfirmation ==null %}
+                                                                                        <span>----------------</span>
+                                                                                    {% else %}
+                                                                                        <span>{{ devis.dateSouhaitee }}</span>
+                                                                                    {% endif %}
+                                                                                </li>
+                                                                                <li>
+                                                                                    <b>Plus d'informations : </b>
+                                                                                    <span id="infosss"
+                                                                                          class="infosss">{{ devis.informations }}</span>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <a href="{{ path('commercialeDevis_showPDF', {'id': demande.id}) }}"><i
+                                                                                                class="fas fa-eye"></i>&nbsp;Voir
+                                                                                        devis</a></li><br>
+                                                                        </ul>
+                                                                    </div>
+                                                                    <!-- /.card-body -->
+                                                                </div>
+
+                                                                <!-- /.card -->
+                                                                <!-- general form elements disabled -->
+
+                                                                <!-- /.card -->
+                                                            </div>
+                                                            <!--/.col (right) -->
+                                                        </div>
+                                                        <!-- /.row -->
+                                                    </div><!-- /.container-fluid -->
+
+                                                </section>
+                                            </div>
+                                            <div class="tab-pane fade" id="custom-tabs-one-stat" role="tabpanel"
+                                                 aria-labelledby="custom-tabs-one-stat-tab">
+                                                <canvas id="canvas"></canvas>
+                                                {% set i=0 %}
+                                                {% set j=10 %}
+                                                {% for stats in stat %}
+                                                    <input id={{ i }} type="hidden"
+                                                           value="{{ stats.date |date('d-m-Y') }}">
+                                                    <input id={{ j }} type="hidden" value="{{ stats.pourcentage }}">
+                                                    <input id="datei" type="hidden"
+                                                           value="{{ demande.dateCreation|date('d-m-Y') }}">
+                                                    {% set i=i+1 %}
+                                                    {% set j=j+1 %}
+                                                {% endfor %}
+                                                <input id="count" type="hidden" value="{{ statCount }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <!-- /.card -->
+                <br>
+
+                <!-- /.content -->
+                <!-- /.content-wrapper -->
+
+
+                <!-- Control Sidebar -->
+                <aside class="control-sidebar control-sidebar-dark">
+                    <!-- Control sidebar content goes here -->
+                </aside>
+            </section>
+            <!-- /.control-sidebar -->
+        </div>
+    </div>
+    <!-- ./wrapper -->
+
+    <!-- jQuery -->
+{% endblock %}
+{% block javascripts %}
+    <script
+            src="https://code.jquery.com/jquery-2.2.4.min.js"
+            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+            crossorigin="anonymous"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.js"></script>
+    <script>
+        $(function () {
+            // Summernote
+            $('.textarea').summernote();
+        })
+    </script>
+    <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- ChartJS -->
+
+    <script src="{{ asset('plugins/chart.js/Chart.min.js') }}"></script>
+    <!-- Sparkline -->
+    <script src="{{ asset('plugins/sparklines/sparkline.js') }}"></script>
+    <!-- JQVMap -->
+    <script src="{{ asset('plugins/jqvmap/jquery.vmap.min.js') }}"></script>
+    <script src="{{ asset('plugins/jqvmap/maps/jquery.vmap.usa.js') }}"></script>
+    <!-- jQuery Knob Chart -->
+    <script src="{{ asset('plugins/jquery-knob/jquery.knob.min.js') }}"></script>
+    <!-- daterangepicker -->
+    <script src="{{ asset('plugins/moment/moment.min.js') }}"></script>
+    <script src="{{ asset('plugins/daterangepicker/daterangepicker.js') }}"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="{{ asset('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+    <!-- Summernote -->
+    <script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
+    <!-- overlayScrollbars -->
+    <script src="{{ asset('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
+
+    <!-- AdminLTE App -->
+    <script src="{{ asset('dist/js/adminlte.js') }}"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script src="{{ asset('dist/js/pages/dashboard.js') }}"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="{{ asset('dist/js/demo.js') }}"></script>
+    {#    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>#}
+
+    <script type="text/javascript">
+        var i = parseInt($("#count").val());
+        $("#optionsss").change(function () {
+            $("#btnx").show();
+            $("#optionsss").hide();
+            somme = parseInt($("#total").text());
+            somer = parseInt($("#totalr").text());
+            somme = somme + parseInt($(this).val());
+            sommer = somer + parseInt($(this).val());
+            console.log(sommer);
+            $("#total").html(somme);
+            $("#totalr").html(sommer);
+            $("#optionss").append("<tr class='ss" + i + "' id='ss" + i + "'><td><input  id='nom" + i + "' onclick='btnnom(" + i + ")' name='nom" + i + "' class='form-control nom" + i + "' value='" + $(this)[0].selectedOptions[0].innerHTML + "' ></td><td><input onclick='btnprix(" + i + ")' placeholder='Vide = 0$' id='prix" + i + "' name='prix" + i + "' class='form-control prix" + i + "' value='" + $(this).val() + "' required></td><td><button onclick='delet(" + $(this).val() + "," + i + ")'id='bt" + i + "' class='btn btn-outline-warning' val><img src='{{ asset('img/rush.png') }}'></button></td></tr>");
+            i++;
+        });
+
+        function btnService() {
+            $("#servicePrix").keyup(function () {
+                this.defaultValue = $(this).val();
+                var red = $(this).val();
+                var prixf = 0;
+                if ((parseInt(red) > 0) && (parseInt(red) < 999999999999)) {
+                    prixf = 0;
+                    for (var co = 0; co < i; co++) {
+                        console.log($("#prix" + co).val())
+                        if (($("#prix" + co).val() > 0) && ($("#prix" + co).val() < 9999999999999)) {
+                            console.log("not ok null");
+
+                            prixf = prixf + parseInt($("#prix" + co).val());
+                        } else {
+                            console.log("ok null");
+                            prixf = 0;
+                        }
+                    }
+                    prixf = prixf + parseInt($(this).val());
+                    $("#total").html(prixf);
+                    $("#totalr").html(prixf - parseInt($("#reduction").text()));
+                } else {
+                    for (var co = 0; co < i; co++) {
+                        prixf = prixf + parseInt($("#prix" + co).val());
+                    }
+                    $("#total").html(prixf);
+                    $("#totalr").html(prixf - parseInt($("#reduction").text()));
+                }
+            });
+        }
+
+        $("#optionsss").hide();
+
+        function btninfos() {
+            $("#infos").keyup(function () {
+                this.defaultValue = $(this).val();
+                var reds = $("#infos").val();
+                $("#infosss").html(reds);
+            });
+        }
+
+        var sommer = somme;
+
+        function btnred() {
+            $("#red").keyup(function () {
+                console.log($("#optionsss").text() + " ok!!!!");
+                this.defaultValue = $(this).val();
+                var red = $("#red").val();
+                if ((parseInt(red) > 0) && (parseInt(red) < 999999999999)) {
+                    $("#reduction").html(red);
+                    sommer = $("#total").text() - red;
+                    $("#totalr").html(sommer);
+                } else {
+                    red = 0;
+                    $("#reduction").html(red);
+                    sommer = $("#total").text() - red;
+                    $("#totalr").html(sommer);
+                }
+
+            });
+        }
+
+        function btnprix(j) {
+            $(".prix" + j).keyup(function () {
+                var c = $(this).val();
+                somme = parseInt($("#total").text());
+                sommer = parseInt($("#totalr").text());
+                if ((parseInt(c) > 0) && (parseInt(c) < 999999999)) {
+                    sommer = sommer - parseInt(this.defaultValue);
+                    sommer = sommer + parseInt(c);
+                    somme = somme - parseInt(this.defaultValue);
+                    somme = somme + parseInt(c);
+                    $("#total").html(somme);
+                    $("#totalr").html(sommer);
+                    this.defaultValue = $(this).val();
+                } else {
+                    c = 0;
+                    sommer = sommer - parseInt(this.defaultValue);
+                    sommer = sommer + parseInt(c);
+                    somme = somme - parseInt(this.defaultValue);
+                    somme = somme + parseInt(c);
+                    $("#total").html(somme);
+                    $("#totalr").html(sommer);
+                    this.defaultValue = 0;
+                }
+            });
+        }
+
+        function btnNomService() {
+            $('#serviceNom').keyup(function () {
+                this.defaultValue = $(this).val();
+            });
+        }
+
+        function btnnom(j) {
+            $('#nom' + j).keyup(function () {
+                this.defaultValue = $(this).val();
+            });
+        }
+
+        function delet(a, j) {
+            var somme = parseInt($("#total").text());
+            var sommer = parseInt($("#totalr").text());
+            if (($("#prix" + j).val() > 0) && ($("#prix" + j).val() < 999999999999999)) {
+                somme = somme - parseInt($("#prix" + j).val());
+                sommer = sommer - parseInt($("#prix" + j).val());
+                console.log("succes");
+            }
+            $("#total").html(somme);
+            $("#totalr").html(sommer);
+            $('#ss' + j).remove();
+
+        }
+
+        function submit() {
+            console.log("ok");
+            var tab = [];
+            for (var k = 0; k < i; k++) {
+                var nom = $(".nom" + k).val();
+                var prix = $(".prix" + k).val();
+                if (nom !== undefined) {
+                    tab.push({nom, prix});
+                }
+                var tab1 = JSON.stringify(tab)
+            }
+            var reduction = $("#red").val();
+            var totalFinal = $("#total").text();
+            var infoss = $("#infos").val();
+            var demandeF ={{ demande.id }};
+            var serviceP = $("#servicePrix").val();
+            var serviceN = $("#serviceNom").val();
+            $.ajax({
+                method: "POST",
+                url: "{{ path('devis') }}",
+                data: {
+                    tab: JSON.parse(tab1),
+                    length: tab.length,
+                    reduction: reduction,
+                    tataleFinal: totalFinal,
+                    infoss: infoss,
+                    demandeF: demandeF,
+                    servicePrix: serviceP,
+                    serviceNom: serviceN,
+                },
+                success: function (data) {
+                    alert("Votre devis à été bien créer.");
+                    window.location = '{{ path('demande_show3', {'id': demande.id}) }}';
+                }
+            });
+        }
+    </script>
+    <script>
+        var tab = [];
+        var x = $('#datei').val();
+        var y = 0;
+        for (var f = 0; f < $("#count").val(); f++) {
+            var k = f + 10;
+            x = ($('#' + f).val());
+            y = ($('#' + k).val());
+            tab.push({x, y});
+        }
+        console.log($("#count").val() + "hiiiii");
+        var timeFormat = 'DD/MM/YYYY';
+        var config = {
+            type: 'line',
+            data: {
+                datasets: [
+                    {
+                        label: "projet affecté",
+                        data: tab,
+                        fill: false,
+                        borderColor: 'blue'
+                    },
+
+                ]
+            },
+            options: {
+                responsive: true,
+                title: {
+                    display: true,
+                    text: "Progression du projet par rapport au temps"
+                },
+                scales: {
+                    xAxes: [{
+                        type: "time",
+                        time: {
+                            format: timeFormat,
+                            tooltipFormat: 'll'
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Date'
+                        }
+                    }],
+                    yAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Pourcentage'
+                        }
+                    }]
+                }
+            }
+        };
+
+        window.onload = function () {
+            var ctx = document.getElementById("canvas").getContext("2d");
+            window.myLine = new Chart(ctx, config);
+        };
+        console.log($("#count").val());
+
+    </script>
+    <script>
+        $("#email").click(function () {
+            $.ajax({
+                method: "POST",
+                url: "{{ path('devis_send', {'id': demande.id}) }}",
+                data: 'id :{{ demande.id }}',
+                success: function (data) {
+                    console.log("btn it's ok!!!!!");
+                }
+            });
+        })
+    </script>
+    <script>
+        $("#contrat").keyup(function () {
+            this.defaultValue = $(this).val();
+        });
+        $("#save").click(function () {
+            $.ajax({
+                method: "POST",
+                url: "{{ path('enregistrer_contrat', {'id': demande.id}) }}",
+                data: {
+                    contrat: $("#contrats").val(),
+                },
+                success: function (data) {
+                    alert('Contrat enregistré avec succées');
+                }
+            });
+        })
+    </script>
+    <script>
+        // $("#contrat").keyup(function () {
+        //     this.defaultValue = $(this).val();
+        // });
+        function send() {
+            $("#send").hide();
+            $(".mails").append("<div class='opts'><label>Sujet: </label><input class='form-control' type='text' id='sujet'><br><label>Corps : </label><textarea class='textarea form-control' id='corps' placeholder='Corps de mail: Si vous voulez une forme texte complet vous pouvez ecrire avec la forme html' style='width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 2px solid #dddddd; padding: 10px;'></textarea><br><button class='form-control btn btn-outline-success' id='sendf'>Envoyer</button></div>");
+            console.log("btn save it's ok");
+            $("#sendf").click(function () {
+                if ($("#sujet").val() == "") {
+                    alert("Remplir le mail");
+                } else {
+                    $.ajax({
+                        method: "POST",
+                        url: "{{ path('contrat_send', {'id': demande.id}) }}",
+                        data: {
+                            sujet: $("#sujet").val(),
+                            corps: $("#corps").val(),
+                        },
+                        success: function (data) {
+                            $(".opts").html("");
+                            alert("Contrat envoyé avec succés");
+                            window.location = '{{ path('demande_show3', {'id': demande.id}) }}';
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+    <script>
+        function sendD() {
+            $("#sendD").hide();
+            $(".mailss").append("<div class='optss'><label>Sujet: </label><input class='form-control' type='text' id='sujet'><br><label>Corps : </label><textarea class='textarea form-control' id='corps' placeholder='Corps de mail: Si vous voulez une forme texte complet vous pouvez ecrire avec la forme html' style='width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 2px solid #dddddd; padding: 10px;'></textarea><br><button class='form-control btn btn-outline-success' id='sendf'>Envoyer</button></div>");
+            console.log("btn save it's ok");
+            $("#sendf").click(function () {
+                if ($("#sujet").val() == "") {
+                    alert("Remplir le mail");
+                } else {
+                    $.ajax({
+                        method: "POST",
+                        url: "{{ path('devis_send', {'id': demande.id}) }}",
+                        data: {
+                            sujet: $("#sujet").val(),
+                            corps: $("#corps").val(),
+                        },
+                        success: function (data) {
+                            $(".optss").html("");
+                            alert("Devis envoyé avec succés");
+                            window.location = '{{ path('demande_show3', {'id': demande.id}) }}';
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+{% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,452 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des utilisateurs{% endblock %}
+{% block stylesheets %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Liste des utilisateurs</title>
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('demande/assets/img/apple-icon.png') }}" />
+    <link rel="icon" type="image/png" href="{{ asset('demande/assets/img/favicon.png') }}" />
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- DataTables -->
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}"/>
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+{% endblock %}
+{% block body %}
+    <script>
+        document.addEventListener("DOMContentLoaded", function(event) {
+            $.ajax({
+                method: "POST",
+                url: "{{ path('commerciale_connected', {'id': app.user.id}) }}",
+                data: {idUser: $("#idUser").val() },
+                success: function(data) {
+                    $('#connected').html("");
+                    $('#connected').append(" &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src={{ asset('dist/img/on.png') }}>")
+                    console.log(data);
+                }
+            })
+        });
+    </script>
+    <div class="wrapper">
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+                </li>
+
+            </ul>
+
+            <!-- Right navbar links -->
+            <ul class="navbar-nav ml-auto">
+                <!-- Messages Dropdown Menu -->
+                <li class="nav-item dropdown">
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-divider"></div>
+                            </div>
+                            <!-- Message End -->
+
+                </li>
+                <!-- Notifications Dropdown Menu -->
+                <li class="nav-item dropdown">
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path('commerciale_disconnected',{'id' :app.user.id}) }}"><img title="Se déconnecter" src="https://img.icons8.com/color/28/000000/export.png"/></a>
+                </li>
+                <input id="idUser" type="hidden" value="{{ app.user.id }}">
+            </ul>
+        </nav>
+        <!-- /.navbar -->
+
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <!-- Brand Logo -->
+            <a href="{{ path('commerciale_user') }}" class="brand-link">
+                <img src="{{ asset('dist/img/AdminLTELogo.png') }}"
+                     alt="AdminLTE Logo"
+                     class="brand-image img-circle elevation-3"
+                     style="opacity: .8">
+                <span class="brand-text font-weight-light">Quote Request</span>
+            </a>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Sidebar user (optional) -->
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="image">
+                        <img src="https://img.icons8.com/bubbles/30/000000/admin-settings-male.png"/>
+                    </div>
+                    <div class="info">
+                        <a href="{{ path('commerciale_show', {'id': app.user.id}) }}" class="d-block">{{app.user.username}}</a>
+                    </div>
+                </div>
+
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <!-- Add icons to the links using the .nav-icon class
+                             with font-awesome or any other icon font library -->
+                        <li class="nav-item has-treeview menu-open active">
+                            <a href="#" class="nav-link active">
+                                <i><img src="{{ asset('dist/img/group.png') }}"></i>
+                                <p>
+                                    Utilisateurs
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item ">
+                                    <a href="{{ path('commerciale_user') }}" class="nav-link active">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>&nbsp; Liste des Utilisateur</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-treeview ">
+                            <a href="#" class="nav-link ">
+                                <i><img src="{{ asset('img/demande.png.png') }}"></i>                                <p>
+                                    Demande
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview ">
+                                <li class="nav-item ">
+                                    <a href="{{ path('commercialeDemande_index') }}" class="nav-link ">
+                                        <i class="far fa-circle nav-icon"></i>                                <p>
+                                        <p>Liste des Demandes</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-treeview ">
+                            <a href="#" class="nav-link ">
+                                <i><img src="https://img.icons8.com/windows/24/000000/user-settings.png"></i>                                <p>
+                                    Compte
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview ">
+                                <li class="nav-item ">
+                                    <a href="{{ path('commercialeUser_Accountedit', {'id': app.user.id}) }}" class="nav-link ">
+                                        &nbsp;&nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>                                <p>
+                                        <p>Gérer compte</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i><img src="https://img.icons8.com/ios/26/000000/composing-mail.png"></i>
+                                <p>
+                                    Mail
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ path('Commercialesend_mails') }}" class="nav-link ">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Envoyer mail</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- /.sidebar-menu -->
+            </div>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                        </div>
+                        <div class="col-sm-6">
+                        </div>
+                    </div>
+                </div><!-- /.container-fluid -->
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card card-primary card-tabs">
+                                <div class="card-header p-0 pt-1">
+                                    <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Partenaire</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Commercial</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="custom-tabs-one-messages-tab" data-toggle="pill" href="#custom-tabs-one-messages" role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false">Prospects</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="card-body">
+                                    <div class="tab-content" id="custom-tabs-one-tabContent">
+                                        <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+                                            <div id="ajax" class="card-body">
+                                                <table id="example1" class="table table-bordered table-hover">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>&nbsp;&nbsp;ID</th>
+                                                        <th>&nbsp;&nbsp;Nom D'utilisateur</th>
+                                                        <th>&nbsp;&nbsp;Derniere Visite</th>
+                                                        <th>&nbsp;&nbsp;Email</th>
+                                                        <th>&nbsp;&nbsp;Connecté(e)</th>
+                                                        <th>&nbsp;&nbsp;Voir</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody id="div">
+                                                    {% if user != null %}
+                                                        <tr>
+                                                            <td>&nbsp;&nbsp;{{ user.id }}</td>
+                                                            <td>&nbsp;&nbsp;{{ user.userName }}</td>
+                                                            <td>
+                                                                {% if user.LastLogin == null %}
+                                                                    <span class="alert-default-warning">N'a pas encore visité!</span>
+                                                                {% else %}
+                                                                    {{ user.LastLogin ? user.LastLogin|date('Y-m-d H:i:s')   }}
+                                                                {% endif %}
+                                                            </td>
+                                                            <td>{{ user.Email }}</td>
+                                                            <script>var i=0;</script>
+                                                            <td>{% if(user.Connecte==true) %}
+                                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="{{ asset('dist/img/on.png') }}"></i>
+                                                                {% else %}
+                                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="{{ asset('dist/img/off.png') }}"></i>
+                                                                {% endif %}
+                                                            </td>
+                                                            <td>
+                                                                &nbsp;&nbsp;<a href="{{ path('commerciale_show', {'id': user.id}) }}"><i class="fas fa-eye"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            </td>
+                                                        </tr>
+                                                    {% else %}
+                                                        <tr>
+                                                            <td colspan="10" style="text-align: center" class="alert-default-warning">Aucun Partenaire trouvé</td>
+                                                        </tr>
+                                                    {% endif %}
+                                                    </tbody>
+                                                    <tfoot>
+                                                    <tr>
+                                                        <th>&nbsp;&nbsp;ID</th>
+                                                        <th>&nbsp;&nbsp;Nom D'utilisateur</th>
+                                                        <th>&nbsp;&nbsp;Derniere Visite</th>
+                                                        <th>&nbsp;&nbsp;Email</th>
+                                                        <th>&nbsp;&nbsp;Connecté(e)</th>
+                                                        <th>&nbsp;&nbsp;Voir</th>
+                                                    </tr>
+                                                    </tfoot>
+                                                </table>
+                                                <br>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+                                    <div id="ajax" class="card-body">
+                                        <table id="example11" class="table table-bordered table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>&nbsp;&nbsp;ID</th>
+                                                <th>&nbsp;&nbsp;Nom D'utilisateur</th>
+                                                <th>&nbsp;&nbsp;Derniere Visite</th>
+                                                <th>&nbsp;&nbsp;Email</th>
+                                                <th>&nbsp;&nbsp;Connecté(e)</th>
+                                                <th>&nbsp;&nbsp;Voir</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="div">
+                                                    <tr>
+                                                        <td>&nbsp;&nbsp;{{ commerciale.id }}</td>
+                                                        <input  type="hidden" value="{{ commerciale.id }}">
+                                                        <input  type="hidden" value="{{ commerciale.userName }}">
+                                                        <td>&nbsp;&nbsp;{{ commerciale.userName }}</td>
+                                                        <td>
+                                                            {% if commerciale.LastLogin == null %}
+                                                                <span class="alert-default-warning">N'a pas encore visité!</span>
+                                                            {% else %}
+                                                                {{ commerciale.LastLogin ? commerciale.LastLogin|date('Y-m-d H:i:s')   }}
+                                                            {% endif %}
+                                                        </td>
+                                                        <td>{{ commerciale.Email }}</td>
+                                                        <td id="connected">{% if(commerciale.Connecte==1) %}
+                                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="{{ asset('dist/img/on.png') }}"></i>
+                                                            {% else %}
+                                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="{{ asset('dist/img/off.png') }}"></i>
+                                                            {% endif %}
+                                                        </td>
+                                                        <td>
+                                                            &nbsp;&nbsp;<a href="{{ path('commerciale_show', {'id': commerciale.id}) }}"><i class="fas fa-eye"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        </td>
+                                                    </tr>
+                                            </tbody>
+                                            <tfoot>
+                                            <tr>
+                                                <th>&nbsp;&nbsp;ID</th>
+                                                <th>&nbsp;&nbsp;Nom D'utilisateur</th>
+                                                <th>&nbsp;&nbsp;Derniere Visite</th>
+                                                <th>&nbsp;&nbsp;Email</th>
+                                                <th>&nbsp;&nbsp;Connecté(e)</th>
+                                                <th>&nbsp;&nbsp;Voir</th>
+                                            </tr>
+                                            </tfoot>
+                                        </table>
+                                        <br>
+                                    </div>
+                                </div>
+                                        <div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
+                                            <div id="ajax" class="card-body">
+                                                <table id="example12" class="table table-bordered table-hover">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>&nbsp;&nbsp;ID</th>
+                                                        <th>&nbsp;&nbsp;Nom D'utilisateur</th>
+                                                        <th>&nbsp;&nbsp;Email</th>
+                                                        <th>&nbsp;&nbsp;Nombres des demandes</th>
+                                                        <th>&nbsp;&nbsp;Voir</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody id="div">
+                                                    {% if prospects !=null %}
+                                                    {% for prosp in prospects %}
+                                                        <tr>
+                                                            <td>{{ prosp.id }}</td>
+                                                            <td>&nbsp;&nbsp;{{ prosp.userName }}</td>
+                                                            <td>{{ prosp.Email }}
+                                                            </td>
+                                                            <td>
+                                                                {{ prosp.DemandeProspect|length }}
+                                                            </td>
+                                                            <td>
+                                                                &nbsp;&nbsp;<a href="{{ path('commerciale_show', {'id': prosp.id}) }}"><i class="fas fa-eye"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                    {% else %}
+                                                    <tr>
+                                                        <td colspan="10" style="text-align: center" class="alert-default-warning">Aucun prospect trouvé</td>
+                                                    </tr>
+                                                    {% endif %}
+                                                    </tbody>
+                                                    <tfoot>
+                                                    <tr>
+                                                        <th>&nbsp;&nbsp;ID</th>
+                                                        <th>&nbsp;&nbsp;Nom D'utilisateur</th>
+                                                        <th>&nbsp;&nbsp;Email</th>
+                                                        <th>&nbsp;&nbsp;Nombres des demandes</th>
+                                                        <th>&nbsp;&nbsp;Voir</th>
+                                                    </tr>
+                                                    </tfoot>
+                                                </table>
+                                                <br>
+                                            </div>     </div>
+                                <!-- /.card -->
+                            </div>
+
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <footer class="main-footer">
+            <div class="float-right d-none d-sm-block">
+            </div>
+
+        </footer>
+
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Add Content Here -->
+        </aside>
+    </div>
+    {% block javascripts %}
+        <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+        <!-- Bootstrap 4 -->
+        <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+        <!-- DataTables -->
+        <!-- AdminLTE App -->
+        <script src="{{ asset('plugins/datatables/jquery.dataTables.js') }}"></script>
+        <!-- AdminLTE for demo purposes -->
+        <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script>
+        <!-- page script -->
+        <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
+
+        <script src="{{ asset('dist/js/demo.js') }}"></script>
+        <script>
+            $(function () {
+                $("#example1").DataTable();
+                $('#example2').DataTable({
+                    "paging": true,
+                    "lengthChange": false,
+                    "searching": false,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": false,
+                });
+            });
+            $(function () {
+                $("#example11").DataTable();
+                $('#example2').DataTable({
+                    "paging": true,
+                    "lengthChange": false,
+                    "searching": false,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": false,
+                });
+            });
+            $(function () {
+                $("#example12").DataTable();
+                $('#example2').DataTable({
+                    "paging": true,
+                    "lengthChange": false,
+                    "searching": false,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": false,
+                });
+            });
+
+        </script>
+        <script>
+            $(function () {
+                $("#example9").DataTable();
+                $('#example2').DataTable({
+                    "paging": true,
+                    "lengthChange": false,
+                    "searching": false,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": false,
+                });
+            });
+
+        </script>
+
+    {% endblock %}
+{% endblock %}
